@@ -1,0 +1,149 @@
+/* Profile Container */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background-color: #F5F5F5;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+h2 {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Profile Photo Section */
+.profile-photo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.profile-initials {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #6C63FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+input[type="file"] {
+  margin-top: 10px;
+  font-size: 14px;
+  padding: 6px;
+  background-color: #fff;
+  border: 1px solid #E0E0E0;
+  border-radius: 10px;
+  cursor: pointer;
+  display: block;
+}
+
+/* Form Fields */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid #E0E0E0;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  background-color: #F5F5F5;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+input:focus {
+  background-color: #FFFFFF;
+  border-color: #6C63FF;
+}
+
+/* Buttons */
+button {
+  padding: 12px 20px;
+  background-color: #6C63FF;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  margin-top: 15px;
+}
+
+button:hover {
+  background-color: #FF6584;
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  background-color: #E0E0E0;
+  cursor: not-allowed;
+}
+
+.delete-button {
+  background-color: #FF6584;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.delete-button:hover {
+  background-color: #FF2A4B;
+}
+
+/* Spacing and Alignment for the Form */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 450px;
+  margin-top: 20px;
+}
+
+form .form-group {
+  width: 100%;
+}
+
+form button {
+  width: 100%;
+}

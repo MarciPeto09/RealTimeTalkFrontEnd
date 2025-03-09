@@ -1,0 +1,36 @@
+<div class="profile-container">
+  <h2>Profile</h2>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <!-- Profile Photo -->
+    <div class="profile-photo-section">
+      <img *ngIf="photoUrl; else initialsBlock" [src]="photoUrl" alt="Profile Photo" class="profile-photo">
+
+      <!-- Initials Fallback -->
+      <ng-template #initialsBlock>
+        <div class="profile-initials">
+          {{ getInitials(profileForm.value.username) }}
+        </div>
+      </ng-template>
+    
+      <!-- File Upload Input -->
+      <input type="file" (change)="onFileSelected($event)" accept="image/*">
+    </div>
+
+    <!-- Username -->
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" formControlName="username" required>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" formControlName="email" required>
+    </div>
+
+    <!-- Submit Button -->
+      <button type="submit" [disabled]="profileForm.invalid">Save Changes</button>
+  <br> <br>
+       <button class="delete-button" (click)="deleteUser()">Delete Account</button>
+  </form>
+</div>

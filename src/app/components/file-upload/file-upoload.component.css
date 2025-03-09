@@ -1,0 +1,33 @@
+.file-upload-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  input[type="file"] {
+    display: block;
+    margin: 10px auto;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+  }
+  
+  a {
+    display: block;
+    margin-top: 10px;
+    color: green;
+  }
+  

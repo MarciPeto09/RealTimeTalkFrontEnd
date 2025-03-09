@@ -1,0 +1,12 @@
+<div class="file-upload-container">
+  <input type="file" (change)="onFileSelected($event)" />
+  <button (click)="uploadFile()" [disabled]="!selectedFile" class="btn-upload">Upload</button>
+  <p *ngIf="message">{{ message }}</p>
+  <div *ngIf="uploadedFileName">
+    <p><strong>Uploaded File:</strong> <a [href]="fileUrl" target="_blank">{{ uploadedFileName }}</a></p>
+  </div>
+</div>
+
+
+  
+  

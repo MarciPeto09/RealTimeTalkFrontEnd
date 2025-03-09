@@ -1,0 +1,77 @@
+/* General container styling */
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading */
+  .container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  /* Form group styling */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 14px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: #007bff;
+  }
+  
+  /* Register button */
+  .btn-register {
+    width: 100%;
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-register:hover {
+    background: #218838;
+  }
+  
+  /* Message styling */
+  .message {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .message.error {
+    color: #dc3545;
+  }
+  
+  .message.success {
+    color: #28a745;
+  }
