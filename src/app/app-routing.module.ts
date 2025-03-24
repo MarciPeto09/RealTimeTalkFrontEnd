@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FileUpoloadComponent } from './components/file-upload/file-upoload.component';
+import { ConversationComponent } from './components/conversation/conversation.component';
 
 export const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
@@ -13,6 +14,8 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'messages', component: MessagesComponent },
     { path: 'sendFile', component: FileUpoloadComponent},
+    { path: 'conversation', component: ConversationComponent},
+    { path: 'messages/:conversationId', component: MessagesComponent },
     { path: '', redirectTo: '/login', pathMatch: 'full' }
   ];
   

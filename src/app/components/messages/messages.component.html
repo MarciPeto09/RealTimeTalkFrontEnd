@@ -1,99 +1,116 @@
 <div class="chat-container">
-  <!-- Sidebar for user list -->
+  <!-- Sidebar -->
   <div class="sidebar">
-    <div class="user-list">
-      <div class="header">
-        <div class="profile-link" (click)="navigateToProfile()">
-          <img *ngIf="currentUser?.photoUrl" 
-               [src]="currentUser?.photoUrl" 
-               alt="Profile Photo" 
-               class="profile-photo">
-          <div *ngIf="!currentUser?.photoUrl" class="profile-initials">
-            {{ getInitials(currentUser?.username) }}
-          </div>
+    <div class="header">
+      <div class="profile-link" (click)="navigateToProfile()">
+        <img *ngIf="currentUser?.photoUrl" 
+             [src]="currentUser?.photoUrl" 
+             alt="Profile Photo" 
+             class="profile-photo">
+        <div *ngIf="!currentUser?.photoUrl" class="profile-initials">
+          {{ getInitials(currentUser?.username) }}
         </div>
-        <button class="btn-logout" (click)="navigateToLogin()">Logout</button>
       </div>
+      <button class="btn-logout" (click)="navigateToLogin()">Logout</button>
+    </div>
 
+    <!-- New Conversation Button -->
+    <button (click)="showCreateConversationForm()" class="new-conversation-btn">
+      <span>+</span> New Conversation
+    </button>
+
+    <!-- User List -->
+    <div class="user-list">
       <ul>
-        <li *ngFor="let user of users" 
-            (click)="selectUser(user)" 
-            [ngClass]="{'selected': selectedUser?.id === user.id}" 
+        <li *ngFor="let conversation of conversations" 
+            (click)="selectConversation(conversation)" 
             class="user-item">
-          <div class="avatar">
-            <img *ngIf="user.photoUrl" 
-                 [src]="user.photoUrl" 
-                 alt="{{ user.username }}" 
-                 class="user-photo">
-            <div *ngIf="!user.photoUrl" class="user-initials">
-              {{ getInitials(user.username) }}
+          <div class="user-photo">
+            <img *ngIf="conversation.participants[0]?.photoUrl" 
+                 [src]="conversation.participants[0]?.photoUrl" 
+                 alt="User Photo">
+            <div *ngIf="!conversation.participants[0]?.photoUrl" class="user-initials">
+              {{ getInitials(conversation.participants[0]?.name) }}
             </div>
           </div>
           <div class="user-info">
-            <strong>{{ user.username }}</strong>
+            <strong>{{ getConversationName(conversation) }}</strong>
+            <small>{{ conversation.lastMessageContent }}</small>
           </div>
+          <div class="conversation-timestamp">
+            {{ conversation.lastMessageTimestamp | date: 'short' }}
+          </div>
+          <button (click)="deleteConversation(conversation.id)" class="btn-delete">Delete</button>
         </li>
       </ul>
     </div>
   </div>
 
   <!-- Chat Section -->
-  <div class="chat-section" *ngIf="selectedUser">
-    <div class="chat-header" >
+  <div class="chat-section" *ngIf="selectedConversation">
+    <div class="chat-header">
       <div class="selected-user-photo">
-        <img *ngIf="selectedUser.photoUrl" 
-             [src]="selectedUser.photoUrl" 
-             alt="{{ selectedUser.username }}" 
-             class="user-photo">
-        <div *ngIf="!selectedUser.photoUrl" class="user-initials">
-          {{ getInitials(selectedUser.username) }}
+      
+        <img *ngIf="selectedConversation.participants[0]?.photoUrl" 
+             [src]="selectedConversation.participants[0]?.photoUrl">
+        <div *ngIf="!selectedConversation.participants[0]?.photoUrl" class="user-initials">
+          {{ getInitials(selectedConversation.participants[0]?.name) }}
         </div>
       </div>
-      <span>Chat with {{ selectedUser.username }}</span>
-    </div>
-
-   <!-- Chat Messages -->
-   <div class="chat-box" #chatBox>
-    <div *ngFor="let msg of filteredMessages" class="message" 
-         [ngClass]="{'sent': msg.senderId === currentUserId, 'received': msg.receiverId === currentUserId}">
-      <div class="message-content">
-        <!-- Display Text Message -->
-        <p *ngIf="msg.content">{{ msg.content }}</p>
-  
-        <!-- Display File (if present) -->
-        <div *ngIf="msg.fileUrl">
-          <ng-container *ngIf="msg.fileUrl.endsWith('.png') || msg.fileUrl.endsWith('.jpg') || msg.fileUrl.endsWith('.jfif') || msg.fileUrl.endsWith('.jpeg'); else fileDownload">
-            <img [src]="msg.fileUrl" class="chat-image" alt="Image">
-          </ng-container>
-          <ng-template #fileDownload>
-            <a [href]="msg.fileUrl" target="_blank" class="file-link">
-              {{ msg.fileName || 'Download File' }}
-            </a>
-          </ng-template>
-        </div>
-  
-        <!-- Timestamp and Delete Button -->
-        <small class="timestamp">{{ msg.timestamp | date: 'shortTime' }}</small>
-        <button *ngIf="msg.senderId === currentUserId" 
-                (click)="deleteMessage(msg.id)" 
-                class="delete-btn">
-        </button>
+      <div class="user-info">
+        <p>{{ selectedConversation?.groupName || 'Unnamed Conversation' }}</p>
+        <small>Online</small>
       </div>
     </div>
-  </div>
-  
 
+    <!-- Chat Box -->
+     
+    <div class="chat-box">
+      <div *ngFor="let msg of filteredMessages" 
+           class="message" 
+           [ngClass]="{'sent': msg.senderId === currentUserId, 'received': msg.senderId !== currentUserId}">
+           
+        <div class="message-content">
+          <div class="sender-name" *ngIf="msg.senderId !== currentUserId">
+            {{ getUserName(msg.senderId) }}
+          </div>
+          <div class="sender-name">
+            {{ msg.senderId === currentUserId ? 'You' : msg.senderId }}
+          </div>
+
+          
+          <div class="message-text">{{ msg.fileName }}</div>
+          <div *ngIf="msg.fileUrl">
+            <div *ngIf="isUploading" class="upload-progress">
+              Uploading file... Please wait
+            </div>
+            <ng-container *ngIf="isImageFile(msg.fileUrl); else fileDownload">
+              <img [src]="msg.fileUrl" class="chat-image" alt="Image">
+            </ng-container>
+            <ng-template #fileDownload>
+              <a [href]="msg.fileUrl" target="_blank" class="file-link">
+                {{ msg.fileName || 'Download File' }}
+              </a>
+            </ng-template>
+          </div>
+          <div class="timestamp">{{ msg.timestamp | date:'short' }}</div>
+        </div>
+        <!-- Optional delete button inside each message -->
+        <button class="delete-btn" (click)="deleteMessage(msg.id)">X</button>
+      </div>
+    </div>
 
     <!-- Chat Input -->
-    <div class="chat-input" *ngIf="selectedUser">
+    <div class="chat-input">
       <form (ngSubmit)="sendMessage()">
-        <input type="text" [(ngModel)]="newMessage.content" 
-               placeholder="Type a message..." name="content" required>
-               <input type="file" id="fileInput" (change)="onFileSelected($event)" />
-        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
-        <button type="submit" class="btn-send">Send</button>
+        <textarea [(ngModel)]="newMessage.content" 
+                  name="newMessage" 
+                  placeholder="Type your message..." 
+                  rows="2"></textarea>
+        <input #fileInput type="file" (change)="onFileSelected($event)" style="display: none;" />
+        <button type="button" (click)="triggerFileInput()">Attach File</button>
+        <button type="submit">Send</button>
       </form>
     </div>
-    
   </div>
 </div>

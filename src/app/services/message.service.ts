@@ -12,6 +12,7 @@ export interface Message {
   fileName?: string | null;
   fileUrl?: string| null;
   timestamp: string | Date;
+  conversationId: number;
 }
 
 @Injectable({
@@ -25,22 +26,26 @@ export class MessageService {
     return this.http.get<Message[]>(`${API_URL}`);
   }
 
-  getMessagesBetweenUsers(senderId: number, receiverId: number): Observable<Message[]> {
-    return this.http.get<Message[]>(`${API_URL}/conversation/${senderId}/${receiverId}`);
+  getMessagesByConversation(conversationId: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${API_URL}/conversation/${conversationId}`);
   }
 
   sendMessage(message: Message, file?: File): Observable<Message> {
     if (file) {
       const formData = new FormData();
       formData.append('senderId', message.senderId.toString());
-      formData.append('receiverId', message.receiverId.toString());
+      formData.append('conversationId', message.conversationId.toString());  
       if (message.content) {
         formData.append('content', message.content);
       }
-      formData.append('file', file);
+      if (file) {
+        formData.append('file', file, file.name);  
+      }
   
+      // Send message with file to the backend
       return this.http.post<Message>(`${API_URL}/saveWithFile`, formData);
     } else {
+      // Send message without file
       return this.http.post<Message>(`${API_URL}/save`, message);
     }
   }

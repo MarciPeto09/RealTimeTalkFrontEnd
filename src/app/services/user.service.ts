@@ -50,8 +50,8 @@ export class UserService {
     return this.http.post<User>(`${API_URL}/login`, request);
   }
 
-  getUser(username: string): Observable<User> {
-    return this.http.get<User>(`${API_URL}/${username}`);
+  getUser(userId: number): Observable<User> {
+    return this.http.get<User>(`${API_URL}/${userId}`);
   }
 
   deleteUser(id: number): Observable<void> {

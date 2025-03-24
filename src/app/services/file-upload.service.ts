@@ -21,5 +21,8 @@ export class FileUploadService {
   getFileUrl(fileName: string): string {
     return `${this.baseUrl}/uploads/${fileName}`;
   } 
+
+  
+  
 }
 

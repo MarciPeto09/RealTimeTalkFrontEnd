@@ -1,0 +1,24 @@
+
+
+<!-- Create New Conversation Form -->
+<div *ngIf="showNewConversationForm" class="create-conversation-form">
+  <div class="form-overlay" (click)="cancelNewConversation()"></div>
+  <div class="form-container">
+    <h3>Create a New Conversation</h3>
+    <div class="form-group">
+      <label for="groupName">Group Name (optional):</label>
+      <input type="text" id="groupName" [(ngModel)]="newConversation.groupName" placeholder="Enter group name">
+    </div>
+    <div class="form-group">
+      <label for="participants">Add Participants:</label>
+      <select multiple [(ngModel)]="newConversation.participants" id="participants">
+        <option *ngFor="let user of users" [ngValue]="user">{{ user.username }}</option>
+      </select>      
+    </div>
+  
+    <div class="form-actions">
+      <button (click)="createConversation()" class="btn-create">Create</button>
+      <button (click)="cancelNewConversation()" class="btn-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
